@@ -1,0 +1,13 @@
+aw-python container mit laufendem sshd.
+
+Im Container wird der Benutzer "hr" mit den ArgeWahl SSH-Keys authorized angelegt. 
+Dieser user hat die UID 1909. 
+Wird dem Container HR_USER_ID mitgegeben, wird der hr-user adaptiert.
+Zusätzlich läuft ein chown auf /opt/project/app.
+
+Alternativ zu USER-ID Änderung kann einfach eine ACL am Host entsprechend gesetzt werden.
+Der User 1909 muss rwx auf dem APP-Verzeichnis haben:
+
+sudo setfacl -R -m u:1909:rwx -m d:u:1909:rwx app/
+
+

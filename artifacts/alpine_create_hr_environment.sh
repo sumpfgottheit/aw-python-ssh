@@ -1,0 +1,30 @@
+#!/bin/bash
+
+HR_USER="hr"
+apk update
+apk add sudo vim make bash git
+
+addgroup -g 1909 $HR_USER
+adduser  -s /bin/bash -G $HR_USER -D -u 1909 $HR_USER
+sed -i -r "s/$HR_USER:!:/$HR_USER::/" /etc/shadow
+git clone https://github.com/sumpfgottheit/dotfiles.git /home/$HR_USER/dotfiles
+chown -R $HR_USER:$HR_USER /home/$HR_USER/dotfiles
+cd /home/$HR_USER/dotfiles
+sudo -u $HR_USER make
+make    # now for root
+
+echo "$HR_USER  ALL=(ALL)       NOPASSWD:ALL" >> /etc/sudoers
+cd /home/$HR_USER
+mkdir .ssh
+echo "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIA3eZXx/E24O4qrMBBAsZXKNw5V0VGY+6MiU4myxuYJW saf@mpbsaf" >> .ssh/authorized_keys
+echo "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDF7UO/Hc1bE0IdjSVss7nUfvDMVr/r72I5yHrizMSiRSnyBMaPg8HTlpD6fD+7VLV/JuDJKOJ3DJVdyS/yXF5AhdY28YNqkccq+ToZC27CwUK86rPtmoQK3Ea7kq/42aMMmmlO3BzCld8V5gumg18bO7yAUAA1obuog0pkQ0+7S+lgqmT0TG0Pyto3oN5Tr1qcu7mpL0udq25aJVwsJiaeAAlbcjz47ZqsWxbKOEYyyI2S0UCu2/7DSAIWyBMaRBeyf9QBIg4HaqU8gfJ1bkdNQr/R/cH0mwg/ZWyjPflJRojL6ZiJYJQ5jBCF+90y6fJDSkMdOh6+/cPFOdFfv2i5 saf@mpbsaf" >> .ssh/authorized_keys
+echo "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCs38IMHVlkkRrWtMEXbQ2H57gtCfqkDJst/+wdUriReUygq5mDFp6E/zbOwP6eICgteNCOmvTuChzq9jExbbwvn00eFRUU6CRfisafOah16BK0Y652lJxbVYxzJN71lsJsJzlkC+hiRkC/6eotg514TZohoENq/IsueZNqhfIkVchnyaKt+crkKCVRMR04khGRMBCCMvUn9RX/QuyxaudvZRUCTLDu6d/Hau6E6eJBTCh8/c0MW8GzfSMTzizESmT2pA1zmTmnPrDTYJm6/miOWQZYZcbUs7iTaU0a6keJP1dk3D0FKjhdG/8krDoI498MX77CKYOWp8bOGeRhvXU9 saf@safrhel.3ve.bmlv.at" >> .ssh/authorized_keys
+echo "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCzQbewBAz8+sIzCp29Xmwwdfp0y/F5CkO/iO0skxUkEYkBAhJzGD/SiG0QtuBkmK/hEqme7x2VAi01n3HwD7sBUt4i4QsyhWTLExk7sDFPDqABwyoMR79o7ZrnTWDLxHsyCoj+ejW/wkNEtg1eLVOC+bX3pzOevCqA81BfoOtWNDWYk0qPhcK5u2BaDfx6uYV9+UZSw64GTv+MOY8BpXzY6MwF9drlwsj4CL8iY+bTc54Fh2l45RlmIlC9j9vi0zDQ0D6N1R/0rMlEvtn3kDW84bmWdUar+D4ShZPvFeLfQ4sXeG40KRMasDPAbJZkC0orLCF0r7OpudaC/MjM5n7T saf@fedora26vm" >> .ssh/authorized_keys
+echo "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDsKe2i1cCTVzdubOh5PZksvw/TqQZPkhLevrmLPiCzP2mX7g8wzWchTK5uscno1oWL2v6n8IM+uEb98dU03jBBMNHoA+OJyb82M4/v8042W7Z1rfuRieBywGMPNRiJD4tfHCjbIF4u1hiln2qV9m/NjZhTkc/H3rfVy5A2v9kqPGzbQQr/ugRcsArC+d+2P2v85EvzSPWpFXCDhjiQ6x49q8dBCpg8FUQ5mmtXnLsF4jt/tFJOIe6kEgw9ZULzxsnacCyBsZh7SIPklWH+GyEAEXy/4xrSqOtFTW52cEm3MtXSQAe2XYTNtlFWulaP4PVarebhL+ipYhpUKyO9v5Jr mem@azhrhost" >> .ssh/authorized_keys
+echo "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDBrrjf6o2oDW34ncCXjLO9Nw3ivGLKtpu1jUJ9DgTRmn5R2AVh0sxcURCYAjrrvLfzYnfKMDR82ZNciik1nO4dE9todsX6epduPVaPrAWrd1LFdU2/2DqyaY2YfucPtJh8EDDabfQ9BNDUDVkUPNDlGyW+YrQ8xC6c3zfpu1aID7F4QwuEn6QZvJmRo2YbgXqwie8sFLhOFxBoerBfFkQQlH1zBBjCDKfre6fqurUyd21YemOqG+KpHorlPzr/c7oPOtwKnWTM7LpCh/gzHfI4ypnSleL3gJJxg+pdtA9s7cuf4S7FBT/Zoqhd8KZ7pFstueNOKZaBVlBfHlttxatjUA9qe3U5u1A/MYBobaleNLHLtz2Y2hfq9dv4NF3OteMyqEvOBOXwZ6kFWHtoXZu9WZF8xwnyEOmjT1o7hKCxXI3252+ljHhqXYY7cRDyAQLpRAnMrsm7ePXxPoJ+VbiYNz+xiGKojPfSTMLGZOsB7RSZKnMHOvYbXNVhb2IgAxhEEj5iATFatNsS0lGTw0H3heNEedK27SJFqQW+dmV30syqBM25dygZ/tsa/TlQsnjWwwaqVd9Vj8C0qzzXBqj4isEhw7OF4Rfcx2rV4CmOQECNT9x0aSGeo6vEEd/h+RwMYriql5+1Cs7/QnVz4CuDvPAEDMgzAf/0Bw7ijWGbnQ== tig@earlybird.at" >> .ssh/authorized_keys
+echo "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDk5Wber0ahXf/OJGF+RxU7cBGl7n+jiPhRHWuHODMd11g70l99dl85ttvPX+SjsHYTKjEiVXRQ8ESNCSeYMa2GoYTV3CUYR/Mq5Q2DmXhT7pbxxWwfKrc+38dp9RqSac6+4th0x2tjVU13X0okRNfC/g1ADTyJk7xGs/uX5W6tQfLGjrA2+mybay8iGnpGK2Ei22AeJKZB/JGs0hO+eXAQJdcwty65Bbucxj6JseJY011Mo5ExB+qDpPJ1ZdQxB5GvhSWDK999gtNqNF4zpdCWXLIAL0ODBa0VAsdwpczIQTa1ecVeW1WeujuCLzImDBnwqaQHxqTwpuRQhT4Fu10+Az9bKBFfmAAT8XolvVYdLaM+bb1hDFGJy8Gu35HrJfmsSxPzqOSkSnt5+WXP/WXIr1HmvBKZDgNb/oeYq73MCnBR2jn5GWIry6fbHSwBd9Bd04WFz9nJ4WUg6QKtIIa+FHDo1p0fdfLBW9CEKvYP+HDlaatyJgauD/f0xW7LCPTNpHIJh8yzvcbhkU6HLifK/CWvdOCHZORegc01u1sKd2aqxzYOYKQkE817FJvgt5clYoXusiYrSdYYjOVXVxO7kdvLQB51isy8k5ZOJKPBC7OuqwvlM3wTEC6/7Zlno/FqlTMjZ1U9TztjryfRNFiPolNtVmi7w0uQm14jSqEYHQ== him@earlybird.at" >> .ssh/authorized_keys
+
+chown -R $HR_USER:$HR_USER .ssh
+chmod 0600 .ssh/authorized_keys
+chmod 0700 .ssh
+

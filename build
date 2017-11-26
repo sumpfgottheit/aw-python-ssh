@@ -1,0 +1,3 @@
+#!/bin/bash
+
+docker build --pull -t docker.io/sumpfgottheit/aw-python-ssh .
