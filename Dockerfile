@@ -7,6 +7,7 @@ RUN apk update  && \
     ssh-keygen -A 
 ADD artifacts/entrypoint.sh /
 ADD artifacts/adapt_user.sh /
+RUN echo 'hr  ALL=(ALL)       NOPASSWD: ALL' > /etc/sudoers
 ADD artifacts/source_container_env.sh /etc/profile.d
 ADD artifacts/alpine_create_hr_environment.sh /tmp/
 RUN sh /tmp/alpine_create_hr_environment.sh
