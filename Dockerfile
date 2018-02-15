@@ -1,4 +1,4 @@
-FROM docker.io/sumpfgottheit/aw-python
+FROM registry.earlybird.at:5000/earlybird/aw-python
 MAINTAINER florian.sachs@gmx.at
 
 RUN apk update  && \

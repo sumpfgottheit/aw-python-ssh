@@ -1,3 +1,4 @@
 #!/bin/bash
 
-docker build --pull -t docker.io/sumpfgottheit/aw-python-ssh .
+docker build --pull -t registry.earlybird.at:5000/earlybird/aw-python-ssh .
+docker push registry.earlybird.at:5000/earlybird/aw-python-ssh 
